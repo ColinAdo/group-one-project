@@ -1,4 +1,11 @@
+from django.conf import settings
 from django.db import models
+
+from accounts.models import Vendor
+
+
+def user_directory_path(instance, filename):
+    return "Product/{0}/{1}".format(instance.username, filename)
 
 
 class Category(models.Model):
@@ -11,3 +18,33 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Product(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='category')
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor')
+
+    name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to=user_directory_path, default='product.png')
+    description = models.TextField(null=True, blank=True)
+    price = models.DecimalField(max_digits=9999999999999999, decimal_places=2, default=0.0)
+    old_price = models.DecimalField(max_digits=9999999999999999, decimal_places=2, default=0.0)
+
+    product_type = models.CharField(max_length=200, default='type', null=True, blank=True)
+    manufactured_date = models.DateTimeField(auto_now_add=False)
+    number_in_stock = models.IntegerField(default=0)
+
+    in_stock = models.BooleanField(default=False)
+
+    date_published = models.DateTimeField(auto_now_add=False)
+
+    class Meta:
+        verbose_name_plural = 'Products'
+
+    def get_percentage(self):
+        new_price = (self.price / self.old_price) * 100
+        return new_price
+    
+    def __str__(self):
+        return self.name
