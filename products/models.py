@@ -48,3 +48,12 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class ProductImages(models.Model):
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="product-images", default="product.png")
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Product Images'

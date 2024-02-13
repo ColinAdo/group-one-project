@@ -1,8 +1,7 @@
-from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 from django.utils.html import mark_safe
 
-from products.models import Category, Product
+from products.models import Category, Product, ProductImages
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -13,7 +12,12 @@ class CategoryAdmin(admin.ModelAdmin):
     display_image.short_description = 'Image'
 
 
+class ProductImagesAdmin(admin.TabularInline):
+    model = ProductImages
+
+
 class ProductAdmin(admin.ModelAdmin):
+    inlines = [ProductImagesAdmin]
     list_display = [
         "name",
         "vendor",
