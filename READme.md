@@ -9,3 +9,5 @@
 ###### $ source .venv\Scripts\activate - On Windows
 ##### 4. Install the requirements library
 ###### $ pip install requirements.txt 
+##### 4. Run the server
+###### $ python manage.py runserver 
