@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 
-from products.models import Category, Product, ProductImages, CartOrder, Wishlist
+from products.models import Category, Product, ProductImages, CartOrder, Wishlist, ProductReview
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -31,6 +31,22 @@ class ProductAdmin(admin.ModelAdmin):
     display_image.short_description = 'Image'
 
 
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "product",
+        "date",
+    ]
+
+
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "product",
+        "rating",
+        "date",
+    ]
+
 class CartOrderAdmin(admin.ModelAdmin):
     list_display = [
         "user",
@@ -43,14 +59,8 @@ class CartOrderAdmin(admin.ModelAdmin):
     ]
 
 
-class WishlistAdmin(admin.ModelAdmin):
-    list_display = [
-        "user",
-        "product",
-        "date",
-    ]
-
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CartOrder, CartOrderAdmin)
 admin.site.register(Wishlist, WishlistAdmin)
+admin.site.register(ProductReview, ProductReviewAdmin)

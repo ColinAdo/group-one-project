@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from accounts.models import Vendor
-from products.choices import PRODUCT_STATUS
+from products.choices import PRODUCT_STATUS, RATINGS
 
 
 def user_directory_path(instance, filename):
@@ -69,7 +69,21 @@ class Wishlist(models.Model):
         verbose_name_plural = 'Wishlists'
 
     def __str__(self):
-        return self.product.title
+        return self.product.name
+    
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    review = models.TextField()
+    rating = models.IntegerField(choices=RATINGS, default=None)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Product Reviews'
+
+    def __str__(self):
+        return self.product.name
 
 # Transactions
     
