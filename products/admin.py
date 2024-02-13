@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 
-from products.models import Category, Product, ProductImages
+from products.models import Category, Product, ProductImages, CartOrder
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -31,5 +31,17 @@ class ProductAdmin(admin.ModelAdmin):
     display_image.short_description = 'Image'
 
 
+class CartOrderAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "product",
+        "price",
+        "payment_status",
+        "product_status",
+        "quantity",
+        "order_date",
+    ]
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(CartOrder, CartOrderAdmin)

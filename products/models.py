@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from accounts.models import Vendor
+from products.choices import PRODUCT_STATUS
 
 
 def user_directory_path(instance, filename):
@@ -57,3 +58,19 @@ class ProductImages(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Images'
+
+# Transactions
+
+
+class CartOrder(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=999999999999999999, decimal_places=2, default=0.0)
+    order_date = models.DateTimeField(auto_now_add=True)
+    payment_status = models.BooleanField(default=False)
+    product_status = models.CharField(max_length=30, choices=PRODUCT_STATUS, default="processing")
+    quantity = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Card Orders'
+
