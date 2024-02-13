@@ -59,9 +59,20 @@ class ProductImages(models.Model):
     class Meta:
         verbose_name_plural = 'Product Images'
 
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Wishlists'
+
+    def __str__(self):
+        return self.product.title
+
 # Transactions
-
-
+    
 class CartOrder(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
