@@ -3,7 +3,6 @@ from django.utils.html import mark_safe
 
 from products.models import Category, Product, ProductImages, CartOrder, Wishlist, ProductReview
 
-
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["title", "display_image", "date"]
 
