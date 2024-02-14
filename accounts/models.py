@@ -5,11 +5,9 @@ from django.db import models
 def user_directory_path(instance, filename):
     return "profile/{0}/{1}".format(instance.username, filename)
 
-
 class CustomUser(AbstractUser):
     profile_picture = models.ImageField(max_length=200, default="profile.png", upload_to=user_directory_path)
     
-
 class Vendor(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
