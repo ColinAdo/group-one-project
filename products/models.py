@@ -4,10 +4,8 @@ from django.db import models
 from accounts.models import Vendor
 from products.choices import PRODUCT_STATUS, RATINGS
 
-
 def user_directory_path(instance, filename):
     return "Product/{0}/{1}".format(instance.username, filename)
-
 
 class Category(models.Model):
     title = models.CharField(max_length=200, default="Chairs")
