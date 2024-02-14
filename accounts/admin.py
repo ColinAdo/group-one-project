@@ -5,7 +5,6 @@ from django.utils.html import mark_safe
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser, Vendor
 
-
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
