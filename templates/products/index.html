@@ -323,36 +323,78 @@
           <div class="latest-product__slider owl-carousel">
             <div class="latest-prdouct__slider__item">
               {% for product in object_list %}
-                <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
-                  </div>
-                </a>
+                {% if product.reviews.count > 0 %}
+                  {% for review in product.reviews.all %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                  {% endfor %}
+                  
+                {% else %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                {% endif %}
+
               {% empty %}
               <small>No product yet</small>
               {% endfor %}
             </div>
             <div class="latest-prdouct__slider__item">
               {% for product in object_list %}
-                <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
-                  </div>
-                </a>
+                {% if product.reviews.count > 0 %}
+                  {% for review in product.reviews.all %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                  {% endfor %}
+                  
+                {% else %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                {% endif %}
+
               {% empty %}
               <small>No product yet</small>
               {% endfor %}
@@ -365,43 +407,43 @@
           <h4>Top Rated Products</h4>
           <div class="latest-product__slider owl-carousel">
             <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% if product.reviews.count > 0  %}
-                  <a href="##" class="latest-product__item">
+              {% for review in top_rated %}
+                
+                <a href="##" class="latest-product__item">
                   <div class="latest-product__item__pic">
                     <img
-                      src="{{product.image.url}}"
+                      src="{{review.product.image.url}}"
                       alt=""
                     />
                   </div>
                   <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
+                    <h6>{{review.product.name}}</h6>
+                    <span>${{review.product.price}}</span>
+                    <span>{{review.get_rating_display}}</span>
                   </div>
                 </a>
-                {% endif %}
               {% empty %}
-              <small>No product yet</small>
+              <small>No product top rated</small>
               {% endfor %}
             </div>
             <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% if product.reviews.count > 0 %}
-                  <a href="##" class="latest-product__item">
+              {% for review in top_rated %}
+                
+                <a href="##" class="latest-product__item">
                   <div class="latest-product__item__pic">
                     <img
-                      src="{{product.image.url}}"
+                      src="{{review.product.image.url}}"
                       alt=""
                     />
                   </div>
                   <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
+                    <h6>{{review.product.name}}</h6>
+                    <span>${{review.product.price}}</span>
+                    <span>{{review.get_rating_display}}</span>
                   </div>
                 </a>
-                {% endif %}
               {% empty %}
-              <small>No product yet</small>
+              <small>No product top rated</small>
               {% endfor %}
             </div>
           </div>
@@ -413,40 +455,48 @@
           <div class="latest-product__slider owl-carousel">
             <div class="latest-prdouct__slider__item">
               {% for product in object_list %}
-                {% if product.reviews.count > 0 %}
-                  <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
-                  </div>
-                </a>
-                {% endif %}
+                {% for review in product.reviews.all %}
+                  {% if review.rating > 0 %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+                  
               {% empty %}
               <small>No product yet</small>
               {% endfor %}
             </div>
             <div class="latest-prdouct__slider__item">
               {% for product in object_list %}
-                {% if product.reviews.count > 0 %}
-                  <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{product.name}}</h6>
-                    <span>${{product.price}}</span>
-                  </div>
-                </a>
-                {% endif %}
+                {% for review in product.reviews.all %}
+                  {% if review.rating > 0 %}
+                    <a href="##" class="latest-product__item">
+                      <div class="latest-product__item__pic">
+                        <img
+                          src="{{product.image.url}}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="latest-product__item__text">
+                        <h6>{{product.name}}</h6>
+                        <span>${{product.price}}</span>
+                        <span>{{review.get_rating_display}}</span>
+                      </div>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+                  
               {% empty %}
               <small>No product yet</small>
               {% endfor %}
