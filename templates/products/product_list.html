@@ -228,28 +228,7 @@
 </section>
 <!-- Hero Section End -->
 
-<!-- Categories Section Begin -->
-<section class="categories">
-  <div class="container">
-    <div class="row">
-      <div class="categories__slider owl-carousel">
-        {% for category in categories %}
-        <a href="{% url 'category' category.id %}">
-          <div class="col-lg-3">
-          <div
-            class="categories__item set-bg"
-            data-setbg="{{category.image.url}}"
-          >
-            <small style="font-weight: bold;">{{category.title}}</small>
-          </div>
-        </div>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Categories Section End -->
+
 
 <!-- Featured Section Begin -->
 <section class="featured spad">
@@ -257,15 +236,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="section-title">
-          <h2>Featured Product</h2>
-        </div>
-        <div class="featured__controls">
-          <ul>
-            <li class="active" data-filter="*">All</li>
-            {% for category in categories %}
-            <li data-filter=".{{category.title}}">{{category.title}}</li>
-            {% endfor %}
-          </ul>
+          <h2>{{category.title}} Product</h2>
         </div>
       </div>
     </div>
@@ -280,21 +251,21 @@
             <ul class="featured__item__pic__hover">
               <li>
                 <a href="#heart">
-                  <svg style="color: red;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                   </svg>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <svg style="color: blue;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
                     <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
                   </svg>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <svg style="color: green;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
                     <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708"/>
                   </svg>
                 </a>
@@ -303,12 +274,15 @@
           </div>
           <div class="featured__item__text">
             <h6><a href="#">{{product.name}}</a></h6>
+            {% for review in product.reviews.all %}
+            <span>{{review.get_rating_display}}</span>
+            {% endfor %}
             <h5>ksh {{product.price}}</h5>
           </div>
         </div>
       </div>
       {% empty %}
-      <li>No articles yet.</li>
+      <li>No product yet.</li>
       {% endfor %}
     </div>
   </div>
@@ -334,200 +308,5 @@
 </div> -->
 <!-- Banner End -->
 
-<!-- Latest Product Section Begin -->
-<section class="latest-product spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="latest-product__text">
-          <h4>Latest Products</h4>
-          <div class="latest-product__slider owl-carousel">
-            <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% if product.reviews.count > 0 %}
-                  {% for review in product.reviews.all %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                  {% endfor %}
-                  
-                {% else %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                {% endif %}
-
-              {% empty %}
-              <small>No product yet</small>
-              {% endfor %}
-            </div>
-            <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% if product.reviews.count > 0 %}
-                  {% for review in product.reviews.all %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                  {% endfor %}
-                  
-                {% else %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                {% endif %}
-
-              {% empty %}
-              <small>No product yet</small>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="latest-product__text">
-          <h4>Top Rated Products</h4>
-          <div class="latest-product__slider owl-carousel">
-            <div class="latest-prdouct__slider__item">
-              {% for review in top_rated %}
-                
-                <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{review.product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{review.product.name}}</h6>
-                    <span>${{review.product.price}}</span>
-                    <span>{{review.get_rating_display}}</span>
-                  </div>
-                </a>
-              {% empty %}
-              <small>No product top rated</small>
-              {% endfor %}
-            </div>
-            <div class="latest-prdouct__slider__item">
-              {% for review in top_rated %}
-                
-                <a href="##" class="latest-product__item">
-                  <div class="latest-product__item__pic">
-                    <img
-                      src="{{review.product.image.url}}"
-                      alt=""
-                    />
-                  </div>
-                  <div class="latest-product__item__text">
-                    <h6>{{review.product.name}}</h6>
-                    <span>${{review.product.price}}</span>
-                    <span>{{review.get_rating_display}}</span>
-                  </div>
-                </a>
-              {% empty %}
-              <small>No product top rated</small>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="latest-product__text">
-          <h4>Review Products</h4>
-          <div class="latest-product__slider owl-carousel">
-            <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% for review in product.reviews.all %}
-                  {% if review.rating > 0 %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                  {% endif %}
-                {% endfor %}
-                  
-              {% empty %}
-              <small>No product yet</small>
-              {% endfor %}
-            </div>
-            <div class="latest-prdouct__slider__item">
-              {% for product in object_list %}
-                {% for review in product.reviews.all %}
-                  {% if review.rating > 0 %}
-                    <a href="##" class="latest-product__item">
-                      <div class="latest-product__item__pic">
-                        <img
-                          src="{{product.image.url}}"
-                          alt=""
-                        />
-                      </div>
-                      <div class="latest-product__item__text">
-                        <h6>{{product.name}}</h6>
-                        <span>${{product.price}}</span>
-                        <span>{{review.get_rating_display}}</span>
-                      </div>
-                    </a>
-                  {% endif %}
-                {% endfor %}
-                  
-              {% empty %}
-              <small>No product yet</small>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Latest Product Section End -->
 
 {% endblock content %}
