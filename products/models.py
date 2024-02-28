@@ -35,7 +35,7 @@ class Product(models.Model):
 
     in_stock = models.BooleanField(default=False)
 
-    date_published = models.DateTimeField(auto_now_add=False)
+    date_published = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Products'
