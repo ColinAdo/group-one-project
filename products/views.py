@@ -88,4 +88,35 @@ class ShoppingCart(TemplateView):
         carts_queryset = CartOrder.objects.filter(user=self.request.user)
         context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))['price__sum']
         return context
+    
+
+class Checkout(TemplateView, FormView):
+    template_name = 'products/checkout.html'
+    form_class = CartOrderForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['carts'] = CartOrder.objects.filter(user=self.request.user)
+
+        carts_queryset = CartOrder.objects.filter(user=self.request.user)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
+            'price__sum']
+        return context
+    
+    def form_valid(self, form):
+        self.success_url = reverse_lazy('product', args=[self.kwargs['pk']])
+        product = get_object_or_404(Product, pk=self.kwargs['pk'])
+
+        quantity = form.cleaned_data['quantity']
+
+        total_price = float(product.price) * float(quantity)
+
+        cart_order = CartOrder.objects.create(
+            user=self.request.user,
+            product=product,
+            quantity=quantity,
+            price=total_price,
+        )
+
+        return super().form_valid(form)
 
