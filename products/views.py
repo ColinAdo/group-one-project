@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 from products.models import Product, Category, ProductReview
+from accounts.models import Vendor
 
 class ProductListView(ListView):
     model = Product
@@ -15,6 +16,7 @@ class ProductListView(ListView):
         context['categories'] = Category.objects.all()
 
         context['top_rated'] = ProductReview.objects.filter(rating=5)
+        context['vendors'] = Vendor.objects.all()
         return context
     
 class CategoryProductList(ListView):
@@ -40,4 +42,14 @@ class ProductDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['products'] = Product.objects.all()
         return context
+    
+
+class ShopDetail(DetailView):
+    model = Vendor
+    template_name = 'products/shop-detail.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['products'] = Vendor.objects.all()
+    #     return context
 
