@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from products.models import Product, Category, ProductReview
 
@@ -31,4 +31,13 @@ class CategoryProductList(ListView):
         context['category'] = Category.objects.get(pk=category_id)
         return context
     
-        
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'products/product-detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.all()
+        return context
+
