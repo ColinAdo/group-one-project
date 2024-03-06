@@ -2,6 +2,7 @@ from django.views.generic import FormView
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.db.models import Sum
 from django.views.generic import ListView, DetailView, TemplateView
 
 from products.models import Product, Category, ProductReview, CartOrder
@@ -19,6 +20,12 @@ class ProductListView(ListView):
 
         context['top_rated'] = ProductReview.objects.filter(rating=5)
         context['vendors'] = Vendor.objects.all()
+        context['carts'] = CartOrder.objects.filter(user=self.request.user)
+
+        carts_queryset = CartOrder.objects.filter(user=self.request.user)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))['price__sum']
+
+
         return context
     
 class CategoryProductList(ListView):
@@ -73,4 +80,12 @@ class ShopDetail(DetailView):
 
 class ShoppingCart(TemplateView):
     template_name = 'products/shopping-cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['carts'] = CartOrder.objects.filter(user=self.request.user)
+
+        carts_queryset = CartOrder.objects.filter(user=self.request.user)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))['price__sum']
+        return context
 
