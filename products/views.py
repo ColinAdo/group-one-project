@@ -1,10 +1,12 @@
-from typing import Any
-from django.db.models.query import QuerySet
+from django.views.generic import FormView
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
 
-from products.models import Product, Category, ProductReview
+from products.models import Product, Category, ProductReview, CartOrder
 from accounts.models import Vendor
+from .forms import CartOrderForm
 
 class ProductListView(ListView):
     model = Product
@@ -34,9 +36,10 @@ class CategoryProductList(ListView):
         return context
     
 
-class ProductDetail(DetailView):
+class ProductDetail(DetailView,FormView):
     model = Product
     template_name = 'products/product-detail.html'
+    form_class = CartOrderForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,9 +47,29 @@ class ProductDetail(DetailView):
         return context
     
 
+    def form_valid(self, form):
+        self.success_url = reverse_lazy('product', args=[self.kwargs['pk']])
+        product = get_object_or_404(Product, pk=self.kwargs['pk'])
+
+        quantity = form.cleaned_data['quantity']
+
+        total_price = float(product.price) * float(quantity)
+
+        cart_order = CartOrder.objects.create(
+            user=self.request.user,
+            product=product,
+            quantity=quantity,
+            price=total_price,
+        )
+
+        return super().form_valid(form)
+    
+
 class ShopDetail(DetailView):
     model = Vendor
     template_name = 'products/shop-detail.html'
+
+
 
 class ShoppingCart(TemplateView):
     template_name = 'products/shopping-cart.html'

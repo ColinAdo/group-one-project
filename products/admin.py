@@ -52,7 +52,6 @@ class CartOrderAdmin(admin.ModelAdmin):
         "product",
         "price",
         "payment_status",
-        "product_status",
         "quantity",
         "order_date",
     ]
