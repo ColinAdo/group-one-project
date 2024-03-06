@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 
 from products.models import Product, Category, ProductReview
 from accounts.models import Vendor
@@ -48,8 +48,6 @@ class ShopDetail(DetailView):
     model = Vendor
     template_name = 'products/shop-detail.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['products'] = Vendor.objects.all()
-    #     return context
+class ShoppingCart(TemplateView):
+    template_name = 'products/shopping-cart.html'
 
