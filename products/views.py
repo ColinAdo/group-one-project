@@ -38,6 +38,10 @@ class CategoryProductList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_id = self.kwargs.get('pk')
+
+        context['vendors'] = Vendor.objects.all()
+        context['carts'] = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
         context['categories'] = Category.objects.all()
         context['category'] = Category.objects.get(pk=category_id)
         return context
