@@ -79,6 +79,7 @@ class ShopDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['vendors'] = Vendor.objects.all()
         context['carts'] = CartOrder.objects.filter(
             user=self.request.user, checked_out=False)
 
