@@ -76,6 +76,19 @@ class ShopDetail(DetailView):
     model = Vendor
     template_name = 'products/shop-detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['carts'] = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+
+        carts_queryset = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
+            'price__sum']
+
+        return context
+
 
 
 class ShoppingCart(TemplateView):
