@@ -167,7 +167,13 @@
                  <span>{{carts.count}}</span></a>
             </li>
           </ul>
-          <div class="header__cart__price">item: <span>ksh {{total_price_sum}}</span></div>
+          <div class="header__cart__price">item: <span>ksh 
+            {% if total_price_sum == None %}
+              0
+              {% else %}
+              {{total_price_sum}}
+            {% endif %}
+          </span></div>
         </div>
       </div>
     </div>

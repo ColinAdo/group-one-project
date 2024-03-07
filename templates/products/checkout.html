@@ -390,20 +390,35 @@
             <div class="checkout__order">
               <h4>Your Order</h4>
               <div class="checkout__order__products">
-                Products <span>Total</span> <span style="margin-right: 100px;">#</span>
+                Products <span>Total</span>
+                <span style="margin-right: 100px">#</span>
               </div>
               <ul>
                 {% for cart in carts %}
                 <li>
-                  {{cart.product.name}}<span>ksh {{cart.price}}</span><span style="margin-right: 50px;">{{cart.quantity}}</span>
+                  {{cart.product.name}}<span>ksh {{cart.price}}</span
+                  ><span style="margin-right: 50px">{{cart.quantity}}</span>
                 </li>
                 {% endfor %}
               </ul>
               <div class="checkout__order__subtotal">
-                Subtotal <span>ksh {{total_price_sum}}</span>
+                Subtotal
+                <span>ksh 
+                  {% if total_price_sum == None %} 
+                    0 
+                  {% else %}
+                    {{total_price_sum}} 
+                  {% endif %}
+                </span>
               </div>
               <div class="checkout__order__total">
-                Total <span>ksh {{total_price_sum}}</span>
+                Total <span>ksh 
+                  {% if total_price_sum == None %} 
+                    0 
+                  {% else %}
+                    {{total_price_sum}} 
+                  {% endif %}
+                </span>
               </div>
               <button type="submit" class="site-btn">PLACE ORDER</button>
             </div>

@@ -116,7 +116,6 @@ class CheckoutView(TemplateView, FormView):
 
         # Get all CartOrder instances for the current user that haven't been checked out
         cart_orders = CartOrder.objects.filter(user=self.request.user, checked_out=False)
-        total_amount = cart_orders.aggregate(Sum('price'))['price__sum']
          
         
         for cart_order in cart_orders:
