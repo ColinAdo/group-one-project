@@ -55,6 +55,11 @@ class ProductDetail(DetailView,FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['products'] = Product.objects.all()
+        context['categories'] = Category.objects.all()
+        context['vendors'] = Vendor.objects.all()
+        context['carts'] = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+
         return context
     
 
