@@ -47,7 +47,6 @@ class CategoryProductList(ListView):
         context['category'] = Category.objects.get(pk=category_id)
         return context
     
-
 class ProductDetail(DetailView,FormView):
     model = Product
     template_name = 'products/product-detail.html'
@@ -80,8 +79,7 @@ class ProductDetail(DetailView,FormView):
         )
 
         return super().form_valid(form)
-    
-
+  
 class ShopDetail(DetailView):
     model = Vendor
     template_name = 'products/shop-detail.html'
@@ -101,8 +99,6 @@ class ShopDetail(DetailView):
 
         return context
 
-
-
 class ShoppingCart(TemplateView):
     template_name = 'products/shopping-cart.html'
 
@@ -116,7 +112,6 @@ class ShoppingCart(TemplateView):
         context['vendors'] = Vendor.objects.all()
         return context
     
-
 class DeleteCartItemView(DeleteView):
     model = CartOrder
     template_name = 'products/shopping-cart.html'  
