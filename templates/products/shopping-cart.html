@@ -296,7 +296,7 @@
                 </td>
                 <td class="shoping__cart__total">ksh {{cart.price}}</td>
                 <td class="shoping__cart__item__close">
-                  <a href="">
+                  <a href="{% url 'delete-cart' cart.id %}">
                     <span class="icon_close"></span>
                   </a>
                 </td>
