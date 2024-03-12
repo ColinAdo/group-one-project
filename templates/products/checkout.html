@@ -281,13 +281,19 @@
                 </div>
               </div>
             </div>
-            <div class="checkout__input">
-              <p>Address<span>*</span></p>
-              {{form.address}}
-            </div>
-            <div class="checkout__input">
-              <p>Town/City<span>*</span></p>
-              {{form.city}}
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Address<span>*</span></p>
+                  {{form.address}}
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Town/City<span>*</span></p>
+                  {{form.city}}
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-lg-6">
@@ -304,6 +310,10 @@
               </div>
             </div>
             <div class="checkout__input">
+              <p>Enter your username<span>*{% if form.non_field_errors %} <small class="text-danger">{{ form.non_field_errors }}</small>  {% endif %}</span></p>
+              <input name="username" type="text" />
+            </div>
+            <div class="checkout__input">
               <p>Enter your Password<span>*</span></p>
               <input name="password" type="password" />
             </div>
@@ -313,7 +323,7 @@
               <h4>Your Order</h4>
               <div class="checkout__order__products">
                 Products <span>Total</span>
-                <span style="margin-right: 100px">#</span>
+                <span style="margin-right: 100px">Qty</span>
               </div>
               <ul>
                 {% for cart in carts %}
