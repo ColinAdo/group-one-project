@@ -1,6 +1,6 @@
 from django.views.generic import FormView
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.db.models import Sum
 from django.views.generic import ListView, DetailView, TemplateView
@@ -135,36 +135,46 @@ class CheckoutView(TemplateView, FormView):
         return context
 
     def form_valid(self, form):
-        fname = form.cleaned_data['fname']
-        lname = form.cleaned_data['lname']
-        address = form.cleaned_data['address']
-        city = form.cleaned_data['city']
-        phone = form.cleaned_data['phone']
-        email = form.cleaned_data['email']
-        # password = form.cleaned_data['password']
+        username = self.request.POST['username']
+        password = self.request.POST['password']
 
-        # Get all CartOrder instances for the current user that haven't been checked out
-        cart_orders = CartOrder.objects.filter(user=self.request.user, checked_out=False)
-         
+        # Check if the entered username and password are valid
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            # Valid credentials, proceed with the checkout
+            fname = form.cleaned_data['fname']
+            lname = form.cleaned_data['lname']
+            address = form.cleaned_data['address']
+            city = form.cleaned_data['city']
+            phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
+
+            # Get all CartOrder instances for the current user that haven't been checked out
+            cart_orders = CartOrder.objects.filter(
+                user=self.request.user, checked_out=False)
+
+            for cart_order in cart_orders:
+                Checkout.objects.create(
+                    user=self.request.user,
+                    cart=cart_order,
+                    fname=fname,
+                    lname=lname,
+                    address=address,
+                    city=city,
+                    phone=phone,
+                    email=email,
+                    amount=cart_order.price,
+                )
+
+                cart_order.checked_out = True
+                cart_order.save()
+
+            return super().form_valid(form)
+        else:
+            form.add_error(None, 'Invalid username or password')
+            return self.form_invalid(form)
         
-        for cart_order in cart_orders:
-            Checkout.objects.create(
-                user=self.request.user,
-                cart=cart_order,
-                fname=fname,
-                lname=lname,
-                address=address,
-                city=city,
-                phone=phone,
-                email=email,
-                amount=cart_order.price,
-            )
-            # Mark the CartOrder as checked out
-            cart_order.checked_out = True
-            cart_order.save()
-
-        return super().form_valid(form)
-    
     def get_success_url(self):
         return reverse_lazy('cart') 
 
