@@ -2,8 +2,9 @@ from django.views.generic import FormView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.db.models import Sum
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView,DeleteView, TemplateView
 
 from products.models import Product, Category, ProductReview, CartOrder, Checkout
 from accounts.models import Vendor
@@ -115,6 +116,19 @@ class ShoppingCart(TemplateView):
         context['vendors'] = Vendor.objects.all()
         return context
     
+
+class DeleteCartItemView(DeleteView):
+    model = CartOrder
+    template_name = 'products/shopping-cart.html'  
+    success_url = reverse_lazy('cart')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(CartOrder, id=self.kwargs['pk'], user=self.request.user, checked_out=False)
+
+    def delete(self, request, *args, **kwargs):
+        cart_order = self.get_object()
+        cart_order.delete()
+        return redirect(self.success_url)
 
 class CheckoutView(TemplateView, FormView):
     template_name = 'products/checkout.html'
