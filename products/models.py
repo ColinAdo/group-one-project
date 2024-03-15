@@ -98,7 +98,7 @@ class ProductReview(models.Model):
 # Transactions
     
 class CartOrder(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=999999999999999999, decimal_places=2, default=0.0)
     order_date = models.DateTimeField(auto_now_add=True)
