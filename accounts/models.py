@@ -10,6 +10,9 @@ def vendor_directory_path(instance, filename):
 
 class CustomUser(AbstractUser):
     profile_picture = models.ImageField(max_length=200, default="profile.png", upload_to=user_directory_path)
+
+    def __str__(self):
+        return self.username
     
 class Vendor(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
