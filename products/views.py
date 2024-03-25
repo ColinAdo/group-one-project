@@ -21,6 +21,8 @@ class ProductListView(ListView):
 
         context['top_rated'] = ProductReview.objects.filter(rating=5)
         context['vendors'] = Vendor.objects.all()
+        context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
+
         context['carts'] = CartOrder.objects.filter(user=self.request.user, checked_out=False)
 
         carts_queryset = CartOrder.objects.filter(user=self.request.user, checked_out=False)

@@ -22,7 +22,7 @@ class Vendor(models.Model):
     contact = models.CharField(max_length=100, default='(+254) 123 456 678')
     address = models.CharField(max_length=100, default='P.0 Box Nairobi')
     warranty_period = models.CharField(max_length=100, default='100')
-    shipping_on_time = models.CharField(max_length=100, default='100')
+    shipping_on_time = models.CharField(max_length=100, default='100', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
