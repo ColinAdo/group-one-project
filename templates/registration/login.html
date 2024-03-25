@@ -2,10 +2,11 @@
 
 <section class="checkout spad">
   <h4 class="text-center" style="font-weight: bold">Sigin In</h4>
-  <div class="container d-flex justify-content-center">
-    <span class="text-danger">
+  <p class="text-danger text-center">
       {% if form.errors %} Wrong username or password! {% endif %}
-    </span>
+  </p>
+  <div class="container d-flex justify-content-center">
+    
     <form action="" method="POST" >
       {% csrf_token %}
       <div class="row">
@@ -21,6 +22,7 @@
             <p>Password<span>* </span></p>
             {{form.password}}
           </div>
+          <p>Don't have account <a href="{% url 'signup' %}">Sign Up</a></p>
           <button type="submit" class="site-btn">Login</button>
         </div>
       </div>
