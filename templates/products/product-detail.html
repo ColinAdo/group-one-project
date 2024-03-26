@@ -382,8 +382,8 @@
             <div class="tab-pane" id="tabs-3" role="tabpanel">
               <div class="product__details__tab__desc">
                 <h6>Products Reviews</h6>
-                {% for product in object.review.all %}
-                <p>{{product.review}}</p>
+                {% for product in object.reviews.all %}
+                <p>{{product.review}} {{product.get_rating_display}}</p>
                 {% empty %}
                 <p>Product is yet to be reviewed</p>
                 {% endfor %}
