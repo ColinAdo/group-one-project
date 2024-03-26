@@ -38,7 +38,6 @@ class Product(models.Model):
 
     product_type = models.CharField(
         max_length=200, default='type', null=True, blank=True)
-    manufactured_date = models.DateTimeField(auto_now_add=False)
     number_in_stock = models.IntegerField(default=0)
 
     in_stock = models.BooleanField(default=False)
