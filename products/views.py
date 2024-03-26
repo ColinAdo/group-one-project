@@ -117,18 +117,16 @@ class ShoppingCart(TemplateView):
 
         return context
     
+
 class DeleteCartItemView(DeleteView):
     model = CartOrder
-    template_name = 'products/shopping-cart.html'  
-    success_url = reverse_lazy('cart')
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(CartOrder, id=self.kwargs['pk'], user=self.request.user, checked_out=False)
+    success_url = reverse_lazy('index')
 
     def delete(self, request, *args, **kwargs):
-        cart_order = self.get_object()
+        cart_order = get_object_or_404(
+            CartOrder, id=self.kwargs['pk'], user=self.request.user, checked_out=False)
         cart_order.delete()
-        return redirect(self.success_url)
+        return redirect("index")
 
 class CheckoutView(TemplateView, FormView):
     template_name = 'products/checkout.html'
