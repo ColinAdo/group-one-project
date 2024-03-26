@@ -1,4 +1,5 @@
 {% extends 'partials/base.html'%} {% load static %} {% block content %}
+
 <!-- Page Preloder -->
 <div id="preloder">
   <div class="loader"></div>
@@ -19,7 +20,7 @@
         <a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a>
       </li>
     </ul>
-    <div class="header__cart__price">item: <span>$150.00</span></div>
+    <div class="header__cart__price">item: <span>ksh150.00</span></div>
   </div>
   <div class="humberger__menu__widget">
     <div class="header__top__right__language">
@@ -44,12 +45,10 @@
         <ul class="header__menu__dropdown">
           <li><a href="./shop-details.html">Shop Details</a></li>
           <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-          <li><a href="./checkout.html">Check Out</a></li>
-          <li><a href="./blog-details.html">Blog Details</a></li>
         </ul>
       </li>
       <li><a href="./blog.html">Blog</a></li>
-      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./contact.html">Become Vendor</a></li>
     </ul>
   </nav>
   <div id="mobile-menu-wrap"></div>
@@ -62,12 +61,13 @@
   <div class="humberger__menu__contact">
     <ul>
       <li><i class="fa fa-envelope"></i> groupOne@gmail.com</li>
-      <li>Free Shipping for all Order of $00</li>
+      <li>Free Shipping for all Order of ksh 00</li>
     </ul>
   </div>
 </div>
 <!-- Humberger End -->
 
+<!-- Header Section Begin -->
 <header class="header">
   <div class="header__top">
     <div class="container">
@@ -105,11 +105,19 @@
               </a>
             </div>
             <div class="header__top__right__auth">
-              <a href="#">
+              {% if request.user.is_authenticated %}
+            
+              <a href="{% url 'logout' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                 </svg>
-                Login</a>
+                  Logout
+              </a>
+              {% else %}
+              <a href="#">
+                  Login/Sign-Up
+              </a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -143,8 +151,17 @@
                 {% endfor %}
               </ul>
             </li>
-            <li><a href="./blog.html">Blog</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            {% if self_vendor %}
+            <li>
+              <a href="#">My Vendors</a>
+              <ul class="header__menu__dropdown">
+                {% for vendor in  self_vendor %}
+                <li><a href="{% url 'vendor' vendor.id %}">{{vendor.name}}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endif %}
+            <li><a href="{% url 'create-vendor' %}">Become Vendor</a></li>
           </ul>
         </nav>
       </div>
@@ -220,16 +237,7 @@
             </div>
           </div>
         </div>
-        <!-- <div
-          class="hero__item set-bg"
-          data-setbg="{% static 'img/categori/cat-6.jpg' %}"
-        > -->
-          <!-- <div class="hero__text">
-            <span>New Product</span>
-            <h2>Vegetable <br />100% Organic</h2>
-            <p>Free Pickup and Delivery Available</p>
-            <a href="#" class="primary-btn">SHOP NOW</a>
-          </div> -->
+      
         </div>
       </div>
     </div>

@@ -90,6 +90,7 @@ class ShopDetail(DetailView):
         context = super().get_context_data(**kwargs)
 
         context['vendors'] = Vendor.objects.all()
+        context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
         context['categories'] = Category.objects.all()
         context['carts'] = CartOrder.objects.filter(
             user=self.request.user, checked_out=False)
@@ -112,6 +113,8 @@ class ShoppingCart(TemplateView):
         carts_queryset = CartOrder.objects.filter(user=self.request.user, checked_out=False)
         context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))['price__sum']
         context['vendors'] = Vendor.objects.all()
+        context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
+
         return context
     
 class DeleteCartItemView(DeleteView):
