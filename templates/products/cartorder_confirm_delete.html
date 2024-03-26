@@ -1,0 +1,10 @@
+{% extends 'partials/base.html'%} {% load static %} {% block content %}
+
+<section class="d-flex justify-content-center m-5">
+<form method="post">
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" value="Confirm Delete">
+        <a href="{% url 'cart' %}">Cancel</a>
+    </form>
+</section>
+{% endblock content %}
