@@ -7,7 +7,8 @@ from products.views import (
     ShoppingCart,
     DeleteCartItemView,
     CheckoutView,
-    CreateProductView
+    CreateProductView,
+    CreateReviewView,
 )
 
 urlpatterns = [
@@ -22,4 +23,7 @@ urlpatterns = [
     path("vendor/<int:pk>/detail/", ShopDetail.as_view(), name="vendor"),
     path("category/<int:pk>/products/",
          CategoryProductList.as_view(), name="category"),
+
+    path("create/<int:pk>/review/", CreateReviewView.as_view(), name="create-review"),
+
 ]
