@@ -4,11 +4,11 @@ from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.db.models import Sum
-from django.views.generic import ListView, DetailView,DeleteView, TemplateView
+from django.views.generic import CreateView, ListView, DetailView,DeleteView, TemplateView
 
 from products.models import Product, Category, ProductReview, CartOrder, Checkout
 from accounts.models import Vendor
-from .forms import CartOrderForm, CheckoutForm
+from .forms import CartOrderForm, CheckoutForm, ProductForm
 
 class ProductListView(ListView):
     model = Product
@@ -189,3 +189,34 @@ class CheckoutView(TemplateView, FormView):
     def get_success_url(self):
         return reverse_lazy('cart') 
 
+
+class CreateProductView(CreateView):
+    form_class = ProductForm
+    success_url = reverse_lazy("index")
+    template_name = "products/createProduct.html"
+
+    def form_valid(self, form):
+        vendor_pk = self.kwargs.get('pk')
+        vendor = get_object_or_404(Vendor, pk=vendor_pk)
+
+        form.instance.vendor = vendor
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+
+        context['top_rated'] = ProductReview.objects.filter(rating=5)
+        context['vendors'] = Vendor.objects.all()
+        context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
+
+        context['carts'] = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+
+        carts_queryset = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
+            'price__sum']
+
+        return context
