@@ -117,7 +117,6 @@ class ShoppingCart(TemplateView):
 
         return context
     
-
 class DeleteCartItemView(DeleteView):
     model = CartOrder
     success_url = reverse_lazy('index')
@@ -180,6 +179,7 @@ class CheckoutView(TemplateView, FormView):
                 )
 
                 cart_order.checked_out = True
+                cart_order.payment_status = True
                 cart_order.save()
 
             return super().form_valid(form)
