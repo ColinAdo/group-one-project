@@ -1,5 +1,5 @@
 from django import forms
-from .models import CartOrder, Checkout, Product
+from .models import CartOrder, Checkout, Product, ProductReview
 
 
 class CartOrderForm(forms.ModelForm):
@@ -26,4 +26,12 @@ class ProductForm(forms.ModelForm):
             'number_in_stock',
             'in_stock',
 
+        ]
+
+class ProductReviewForm(forms.ModelForm):
+    class Meta:
+        model = ProductReview
+        fields = [
+            "rating",
+            "review"
         ]
