@@ -4,13 +4,15 @@ from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.db.models import Sum
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView,DeleteView, TemplateView
 
 from products.models import Product, Category, ProductReview, CartOrder, Checkout
 from accounts.models import Vendor
 from .forms import CartOrderForm, CheckoutForm, ProductForm, ProductReviewForm
 
-class ProductListView(ListView):
+
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     queryset = Product.objects.all().order_by("-date_published")
     template_name = 'products/index.html'
@@ -31,7 +33,8 @@ class ProductListView(ListView):
 
         return context
     
-class CategoryProductList(ListView):
+
+class CategoryProductList(LoginRequiredMixin, ListView):
     model = Product
 
     def get_queryset(self):
@@ -49,7 +52,8 @@ class CategoryProductList(ListView):
         context['category'] = Category.objects.get(pk=category_id)
         return context
     
-class ProductDetail(DetailView,FormView):
+
+class ProductDetail(LoginRequiredMixin, DetailView ,FormView):
     model = Product
     template_name = 'products/product-detail.html'
     form_class = CartOrderForm
@@ -82,7 +86,8 @@ class ProductDetail(DetailView,FormView):
 
         return super().form_valid(form)
   
-class ShopDetail(DetailView):
+
+class ShopDetail(LoginRequiredMixin, DetailView):
     model = Vendor
     template_name = 'products/shop-detail.html'
 
@@ -102,7 +107,8 @@ class ShopDetail(DetailView):
 
         return context
 
-class ShoppingCart(TemplateView):
+
+class ShoppingCart(LoginRequiredMixin, TemplateView):
     template_name = 'products/shopping-cart.html'
 
     def get_context_data(self, **kwargs):
@@ -117,7 +123,8 @@ class ShoppingCart(TemplateView):
 
         return context
     
-class DeleteCartItemView(DeleteView):
+
+class DeleteCartItemView(LoginRequiredMixin, DeleteView):
     model = CartOrder
     success_url = reverse_lazy('index')
 
@@ -127,7 +134,8 @@ class DeleteCartItemView(DeleteView):
         cart_order.delete()
         return redirect("index")
 
-class CheckoutView(TemplateView, FormView):
+
+class CheckoutView(LoginRequiredMixin, TemplateView, FormView):
     template_name = 'products/checkout.html'
     form_class = CheckoutForm
 
@@ -190,7 +198,8 @@ class CheckoutView(TemplateView, FormView):
     def get_success_url(self):
         return reverse_lazy('cart') 
 
-class CreateProductView(CreateView):
+
+class CreateProductView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy("index")
     template_name = "products/createProduct.html"
@@ -222,7 +231,7 @@ class CreateProductView(CreateView):
         return context
     
 
-class CreateReviewView(CreateView):
+class CreateReviewView(LoginRequiredMixin, CreateView):
     form_class = ProductReviewForm
     success_url = reverse_lazy("index")
     template_name = "products/createReview.html"
