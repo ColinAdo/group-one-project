@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from accounts.models import Vendor
-from products.choices import PRODUCT_STATUS, RATINGS
+from products.choices import PRODUCT_STATUS, RATINGS, INTERVAL
 
 
 def product_driectory_path(instance, filename):
@@ -126,3 +126,15 @@ class Checkout(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Checkout"
+    
+
+class Subscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=99999999, decimal_places=2, default=0)
+    interval = models.CharField(max_length=30, choices=INTERVAL, default="monthly")
+    subscription_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} Subscription"
+
+
