@@ -7,7 +7,7 @@ from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView,DeleteView, TemplateView
 
-from products.models import Product, Category, ProductReview, CartOrder, Checkout
+from products.models import Product, Category, ProductReview, CartOrder, Checkout, Subscription
 from accounts.models import Vendor
 from .forms import CartOrderForm, CheckoutForm, ProductForm, ProductReviewForm, SubscriptionForm
 
@@ -24,6 +24,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         context['top_rated'] = ProductReview.objects.filter(rating=5)
         context['vendors'] = Vendor.objects.all()
         context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
+        context['subscription'] = Subscription.objects.filter(user=self.request.user)
 
         context['carts'] = CartOrder.objects.filter(user=self.request.user, checked_out=False)
 

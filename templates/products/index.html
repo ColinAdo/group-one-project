@@ -160,7 +160,12 @@
               </ul>
             </li>
             {% endif %}
+            {% if subscription %}
+              <li><a href="{% url 'create-vendor' %}">Become Vendor</a></li>
+            {% else %}
             <li><a href="{% url 'subscribe' %}">Become Vendor</a></li>
+            {% endif %}
+
           </ul>
         </nav>
       </div>
