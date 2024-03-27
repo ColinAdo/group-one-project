@@ -9,7 +9,7 @@ from django.views.generic import CreateView, ListView, DetailView,DeleteView, Te
 
 from products.models import Product, Category, ProductReview, CartOrder, Checkout
 from accounts.models import Vendor
-from .forms import CartOrderForm, CheckoutForm, ProductForm, ProductReviewForm
+from .forms import CartOrderForm, CheckoutForm, ProductForm, ProductReviewForm, SubscriptionForm
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -242,6 +242,35 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 
         form.instance.product = product
         form.instance.user = self.request.user 
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+
+        context['top_rated'] = ProductReview.objects.filter(rating=5)
+        context['vendors'] = Vendor.objects.all()
+        context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
+
+        context['carts'] = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+
+        carts_queryset = CartOrder.objects.filter(
+            user=self.request.user, checked_out=False)
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
+            'price__sum']
+
+        return context
+
+
+class SubscriptionView(LoginRequiredMixin, CreateView):
+    form_class = SubscriptionForm
+    success_url = reverse_lazy("create-vendor")
+    template_name = "products/subscription.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
 
         return super().form_valid(form)
 
