@@ -4,6 +4,11 @@ PRODUCT_STATUS = (
     ("deliverd", "Delivered"),
 )
 
+INTERVAL = (
+    (1, "Monthly"),
+    (2, "Yearly"),
+)
+
 RATINGS = (
     (1, "⭐"),
     (2, "⭐⭐"),
