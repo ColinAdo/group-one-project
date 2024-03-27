@@ -9,6 +9,7 @@ from products.views import (
     CheckoutView,
     CreateProductView,
     CreateReviewView,
+    SubscriptionView
 )
 
 urlpatterns = [
@@ -25,5 +26,6 @@ urlpatterns = [
          CategoryProductList.as_view(), name="category"),
 
     path("create/<int:pk>/review/", CreateReviewView.as_view(), name="create-review"),
+    path("subscribe/", SubscriptionView.as_view(), name="subscribe"),
 
 ]

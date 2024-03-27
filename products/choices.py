@@ -4,9 +4,9 @@ PRODUCT_STATUS = (
     ("deliverd", "Delivered"),
 )
 
-INTERVAL = (
-    (1, "Monthly"),
-    (2, "Yearly"),
+DUARATION = (
+    ('1', "Monthly ksh 5,000"),
+    ('2', "Yearly ksh 50,000"),
 )
 
 RATINGS = (

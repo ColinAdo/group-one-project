@@ -3,6 +3,7 @@ from django.utils.html import mark_safe
 
 from products.models import Category, Product, ProductImages, CartOrder, Wishlist, ProductReview, Checkout, Subscription
 
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["title", "display_image", "date"]
 
@@ -46,6 +47,7 @@ class ProductReviewAdmin(admin.ModelAdmin):
         "date",
     ]
 
+
 class CartOrderAdmin(admin.ModelAdmin):
     list_display = [
         "user",
@@ -73,7 +75,8 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_display = [
         "user",
         "amount",
-        "interal",
+        "duration",
+        "paid",
         "subscription_date",
     ]
 

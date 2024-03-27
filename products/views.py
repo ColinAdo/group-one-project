@@ -271,6 +271,15 @@ class SubscriptionView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.paid = True
+
+        duration = form.cleaned_data.get('duration')
+
+        if duration == '1':  # Monthly
+            form.instance.amount = 5000
+        elif duration == '2':  # Yearly
+            form.instance.amount = 50000
+
 
         return super().form_valid(form)
 
