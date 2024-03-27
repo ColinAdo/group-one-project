@@ -1,5 +1,5 @@
 from django import forms
-from .models import CartOrder, Checkout, Product, ProductReview
+from .models import CartOrder, Checkout, Product, ProductReview, Subscription
 
 
 class CartOrderForm(forms.ModelForm):
@@ -31,6 +31,15 @@ class ProductForm(forms.ModelForm):
 class ProductReviewForm(forms.ModelForm):
     class Meta:
         model = ProductReview
+        fields = [
+            "rating",
+            "review"
+        ]
+
+
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
         fields = [
             "rating",
             "review"
