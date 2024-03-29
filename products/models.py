@@ -8,7 +8,6 @@ from products.choices import PRODUCT_STATUS, RATINGS, DUARATION
 def product_driectory_path(instance, filename):
     return "Product/{0}/{1}".format(instance.name, filename)
 
-
 class Category(models.Model):
     title = models.CharField(max_length=200, default="Chairs")
     image = models.ImageField(upload_to='category', default='category.png')
@@ -20,7 +19,6 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-
 class Product(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, related_name='category')
@@ -28,16 +26,12 @@ class Product(models.Model):
         Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor')
 
     name = models.CharField(max_length=200)
-    image = models.ImageField(
-        upload_to=product_driectory_path, default='product.png')
+    image = models.ImageField(upload_to=product_driectory_path, default='product.png')
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(
-        max_digits=9999999999999999, decimal_places=2, default=0.0)
-    old_price = models.DecimalField(
-        max_digits=9999999999999999, decimal_places=2, default=0.0)
+    price = models.DecimalField(max_digits=9999999999999999, decimal_places=2, default=0.0)
+    old_price = models.DecimalField(max_digits=9999999999999999, decimal_places=2, default=0.0)
 
-    product_type = models.CharField(
-        max_length=200, default='type', null=True, blank=True)
+    product_type = models.CharField(max_length=200, default='type', null=True, blank=True)
     number_in_stock = models.IntegerField(default=0)
 
     in_stock = models.BooleanField(default=False)
@@ -56,10 +50,8 @@ class Product(models.Model):
 
 
 class ProductImages(models.Model):
-    product = models.ForeignKey(
-        Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(
-        upload_to="product-images", default="product.png")
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="product-images", default="product.png")
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -67,8 +59,7 @@ class ProductImages(models.Model):
 
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -80,10 +71,8 @@ class Wishlist(models.Model):
 
 
 class ProductReview(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
     review = models.TextField()
     rating = models.IntegerField(choices=RATINGS, default=None)
     date = models.DateTimeField(auto_now_add=True)
