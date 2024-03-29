@@ -11,7 +11,6 @@ class CustomUserCreationForm(UserCreationForm):
             "profile_picture",
         )
 
-
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
@@ -22,5 +21,11 @@ class CustomUserChangeForm(UserChangeForm):
 class VendorForm(ModelForm):
     class Meta:
         model = Vendor
-        fields = ["name", "description", "contact",
-                  "address", "warranty_period", "shipping_on_time"]
+        fields = [
+            "name", 
+            "description", 
+            "contact",
+            "address", 
+            "warranty_period", 
+            "shipping_on_time"
+            ]
