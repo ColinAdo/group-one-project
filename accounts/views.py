@@ -7,12 +7,10 @@ from accounts.forms import CustomUserCreationForm, VendorForm
 
 from products.models import Product, Category, CartOrder, Vendor, ProductReview
 
-
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
-
 
 class CreateVendorView(CreateView):
     form_class = VendorForm
