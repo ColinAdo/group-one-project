@@ -24,7 +24,6 @@ class ProductForm(forms.ModelForm):
             'product_type',
             'number_in_stock',
             'in_stock',
-
         ]
 
 class ProductReviewForm(forms.ModelForm):
