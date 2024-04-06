@@ -288,7 +288,6 @@ class SubscriptionView(LoginRequiredMixin, CreateView):
         context['carts'] = CartOrder.objects.filter(user=self.request.user, checked_out=False)
 
         carts_queryset = CartOrder.objects.filter(user=self.request.user, checked_out=False)
-        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
-            'price__sum']
+        context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))['price__sum']
 
         return context
