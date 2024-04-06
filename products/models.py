@@ -4,7 +4,6 @@ from django.db import models
 from accounts.models import Vendor
 from products.choices import PRODUCT_STATUS, RATINGS, DUARATION
 
-
 def product_driectory_path(instance, filename):
     return "Product/{0}/{1}".format(instance.name, filename)
 
@@ -20,10 +19,8 @@ class Category(models.Model):
         return self.title
 
 class Product(models.Model):
-    category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, related_name='category')
-    vendor = models.ForeignKey(
-        Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='category')
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor')
 
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to=product_driectory_path, default='product.png')
