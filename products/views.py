@@ -68,7 +68,6 @@ class ProductDetail(LoginRequiredMixin, DetailView ,FormView):
             user=self.request.user, checked_out=False)
 
         return context
-    
 
     def form_valid(self, form):
         self.success_url = reverse_lazy('product', args=[self.kwargs['pk']])
@@ -84,7 +83,6 @@ class ProductDetail(LoginRequiredMixin, DetailView ,FormView):
             quantity=quantity,
             price=total_price,
         )
-
         return super().form_valid(form)
   
 
@@ -145,11 +143,9 @@ class CheckoutView(LoginRequiredMixin, TemplateView, FormView):
 
         context['vendors'] = Vendor.objects.all()
         context['categories'] = Category.objects.all()
-        context['carts'] = CartOrder.objects.filter(
-            user=self.request.user, checked_out=False)
+        context['carts'] = CartOrder.objects.filter(user=self.request.user, checked_out=False)
 
-        carts_queryset = CartOrder.objects.filter(
-            user=self.request.user, checked_out=False)
+        carts_queryset = CartOrder.objects.filter(user=self.request.user, checked_out=False)
         context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
             'price__sum']
         return context
@@ -158,11 +154,9 @@ class CheckoutView(LoginRequiredMixin, TemplateView, FormView):
         username = self.request.POST['username']
         password = self.request.POST['password']
 
-        # Check if the entered username and password are valid
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            # Valid credentials, proceed with the checkout
             fname = form.cleaned_data['fname']
             lname = form.cleaned_data['lname']
             address = form.cleaned_data['address']
@@ -281,7 +275,6 @@ class SubscriptionView(LoginRequiredMixin, CreateView):
         elif duration == '2':  # Yearly
             form.instance.amount = 50000
 
-
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -292,11 +285,9 @@ class SubscriptionView(LoginRequiredMixin, CreateView):
         context['vendors'] = Vendor.objects.all()
         context['self_vendor'] = Vendor.objects.filter(user=self.request.user)
 
-        context['carts'] = CartOrder.objects.filter(
-            user=self.request.user, checked_out=False)
+        context['carts'] = CartOrder.objects.filter(user=self.request.user, checked_out=False)
 
-        carts_queryset = CartOrder.objects.filter(
-            user=self.request.user, checked_out=False)
+        carts_queryset = CartOrder.objects.filter(user=self.request.user, checked_out=False)
         context['total_price_sum'] = carts_queryset.aggregate(Sum('price'))[
             'price__sum']
 
