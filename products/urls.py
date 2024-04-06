@@ -22,8 +22,7 @@ urlpatterns = [
     path("chekout/", CheckoutView.as_view(), name="checkout"),
 
     path("vendor/<int:pk>/detail/", ShopDetail.as_view(), name="vendor"),
-    path("category/<int:pk>/products/",
-         CategoryProductList.as_view(), name="category"),
+    path("category/<int:pk>/products/", CategoryProductList.as_view(), name="category"),
 
     path("create/<int:pk>/review/", CreateReviewView.as_view(), name="create-review"),
     path("subscribe/", SubscriptionView.as_view(), name="subscribe"),
